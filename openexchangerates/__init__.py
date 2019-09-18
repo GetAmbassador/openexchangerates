@@ -15,7 +15,6 @@ class OpenExchangeRatesClientException(requests.exceptions.RequestException):
 
 class OpenExchangeRatesClient(object):
     """This class is a client implementation for openexchangerate.org service
-
     """
     BASE_URL = 'http://openexchangerates.org/api'
     ENDPOINT_LATEST = BASE_URL + '/latest.json'
@@ -29,7 +28,6 @@ class OpenExchangeRatesClient(object):
 
     def latest(self, base='USD'):
         """Fetches latest exchange rate data from service
-
         :Example Data:
             {
                 disclaimer: "<Disclaimer data>",
@@ -49,16 +47,14 @@ class OpenExchangeRatesClient(object):
         try:
             resp = self.client.get(self.ENDPOINT_LATEST, params={'base': base})
             resp.raise_for_status()
-        except requests.exceptions.RequestException, e:
+        except requests.exceptions.RequestException as e:
             raise OpenExchangeRatesClientException(e)
         return resp.json(parse_int=decimal.Decimal,
                          parse_float=decimal.Decimal)
 
     def currencies(self):
         """Fetches current currency data of the service
-
         :Example Data:
-
         {
             AED: "United Arab Emirates Dirham",
             AFN: "Afghan Afghani",
@@ -75,14 +71,13 @@ class OpenExchangeRatesClient(object):
         """
         try:
             resp = self.client.get(self.ENDPOINT_CURRENCIES)
-        except requests.exceptions.RequestException, e:
+        except requests.exceptions.RequestException as e:
             raise OpenExchangeRatesClientException(e)
 
         return resp.json()
 
     def historical(self, date, base='USD'):
         """Fetches historical exchange rate data from service
-
         :Example Data:
             {
                 disclaimer: "<Disclaimer data>",
@@ -104,7 +99,7 @@ class OpenExchangeRatesClient(object):
                                    date.strftime("%Y-%m-%d"),
                                    params={'base': base})
             resp.raise_for_status()
-        except requests.exceptions.RequestException, e:
+        except requests.exceptions.RequestException as e:
             raise OpenExchangeRatesClientException(e)
         return resp.json(parse_int=decimal.Decimal,
                          parse_float=decimal.Decimal)
